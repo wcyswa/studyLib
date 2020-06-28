@@ -1,0 +1,22 @@
+{
+  "name": "typescriptDemo",
+  "version": "1.0.0",
+  "description": "ts优点 1.错误提示 2.代码整洁",
+  "main": "index.js",
+  "scripts": {
+    "dev": " ts-node ./src/crowller.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cheerio": "^0.22.18",
+    "@types/superagent": "^4.1.7",
+    "cheerio": "^1.0.0-rc.3",
+    "superagent": "^5.2.2",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {}
+}
