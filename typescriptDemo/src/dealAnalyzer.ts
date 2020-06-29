@@ -16,9 +16,18 @@ interface Content {
     [propName: number]: Course[],
 }
 
-export default class dealAnalyzer implements Analyzer{
+export default class DealAnalyzer implements Analyzer{
 
-    getCourseInfo(html: string) {
+    private static instance: DealAnalyzer;
+
+    static getInstance(){
+        if(!DealAnalyzer.instance){
+            DealAnalyzer.instance = new DealAnalyzer();
+        }
+        return DealAnalyzer.instance;
+    }
+
+    private getCourseInfo(html: string) {
         const $ = cheerio.load(html);
         const courseItems = $(".entry-item");
         const courseInfo: Course[] = [];
@@ -34,8 +43,9 @@ export default class dealAnalyzer implements Analyzer{
         }
     }
 
-    genderJsonFile(courseInfo: CourseInfo, filePath: string) {
+    private genderJsonFile(courseInfo: CourseInfo, filePath: string) {
         let fileContent: Content = {};
+        console.log(fs.existsSync(filePath))
         if (fs.existsSync(filePath)) {
             fileContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
         }
@@ -44,8 +54,11 @@ export default class dealAnalyzer implements Analyzer{
         return JSON.stringify(fileContent)
     }
 
-    analyzer(html: string, filePath: string) {
+    public analyzer(html: string, filePath: string) {
         const courseInfo = this.getCourseInfo(html);
         return this.genderJsonFile(courseInfo, filePath)
+    }
+
+    private constructor() {
     }
 }

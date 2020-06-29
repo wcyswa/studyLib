@@ -12,16 +12,16 @@ export interface Analyzer {
 
 class Crowller {
 
-    async getRowHtml(url:string) {
+    private async getRowHtml(url:string) {
         let {text} = await superagent.get(url);
         return text;
     }
 
-    writeFile(filePath:string,fileContent:string){
+    private writeFile(filePath:string,fileContent:string){
         fs.writeFileSync(filePath,fileContent);
     }
 
-    async init(url:string,filePath:string,analyzer:Analyzer) {
+    private async init(url:string,filePath:string,analyzer:Analyzer) {
         const html = await this.getRowHtml(url);
         const fileContent = analyzer.analyzer(html,filePath);
         this.writeFile(filePath,fileContent);
@@ -35,7 +35,12 @@ class Crowller {
 const url = 'http://192.168.4.199:8080';
 const filePath = path.resolve(__dirname,'../data/course.json');
 
+
+
 // 组合设计模式
-// const analyzer = new DealAnalyzer();
-const analyzer = new LeeAnalyzer();
+// const analyzer1 = new DealAnalyzer();
+// const analyzer2 = new LeeAnalyzer();
+
+// 单例模式
+const analyzer = DealAnalyzer.getInstance();
 new Crowller(url,filePath,analyzer);
