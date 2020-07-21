@@ -42,5 +42,7 @@ const filePath = path.resolve(__dirname,'../data/course.json');
 // const analyzer2 = new LeeAnalyzer();
 
 // 单例模式
-const analyzer = DealAnalyzer.getInstance();
-new Crowller(url,filePath,analyzer);
+// const analyzer = DealAnalyzer.getInstance();
+// new Crowller(url,filePath,analyzer);
+
+export default Crowller;
