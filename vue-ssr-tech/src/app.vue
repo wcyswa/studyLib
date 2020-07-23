@@ -1,19 +1,28 @@
 <template>
-    <div id="test">{{text}}}</div>
+    <div id="test">
+        <Header />
+        <Todo />
+        <Footer />
+    </div>
 </template>
 
 <script>
+    import Header from "./todo/header.vue";
+    import Todo from "./todo/Todo.vue";
+    import Footer from "./todo/Footer.jsx";
+
     export default {
-        data(){
-          return {
-              text:'wcy'
-          }
+        components: {Todo, Header,Footer},
+        data() {
+            return {
+                text: 'wcy'
+            }
         },
     }
 </script>
 
 <style scoped>
-#test{
-    color: red;
-}
+    #test {
+        color: red;
+    }
 </style>

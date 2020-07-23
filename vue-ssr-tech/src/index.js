@@ -1,9 +1,7 @@
 import Vue from 'vue';
 import App from './app.vue';
 
-import './assets/images/pic_intrForTeacher.png';
-import './assets/styles/test.css'
-import './assets/styles/test-stylus.styl'
+import './assets/styles/base.styl'
 
 const root = document.createElement('div');
 document.body.appendChild(root);
