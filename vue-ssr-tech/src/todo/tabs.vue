@@ -65,4 +65,8 @@
     .active {
         color: green;
     }
+
+    .clear{
+        border: solid 1px;
+    }
 </style>
