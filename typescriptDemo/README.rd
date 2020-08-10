@@ -15,5 +15,17 @@ declare var $:(param:()=>void)=>void;
 declare function
 
 
+自定义中间件
+app.use((req: Request, res: Response, next: NextFunction) => {
+    req.teacherName = 'dell';
+    next();
+});
+因为teacherName在req上是不存在的，所以还需要类型定义
+declare namespace Express{
+    interface Request {
+        teacherName:string
+    }
+}
+
 启动前端的服务
 http-server
