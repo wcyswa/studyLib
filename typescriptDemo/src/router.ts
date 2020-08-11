@@ -1,22 +1,32 @@
-import {Router, Request, Response} from 'express';
+import {Router, Request, Response, NextFunction} from 'express';
 import path from "path";
-import DealAnalyzer from "./dealAnalyzer";
-import Crowller from "./crowller";
+import DealAnalyzer from "./utils/dealAnalyzer";
+import Crowller from "./utils/crowller";
 import fs from 'fs';
+import {getResponseData} from "./utils/util";
 
 const router = Router();
 
 //解决问题1.express 库的类型定义文件， .d.ts文件类型描述不准确
-interface RequestWithBody extends Request {
+interface BodyRequest extends Request {
     body: {
-        password: string | undefined,
-        // [key: string]: string | undefined,
+        // password: string | undefined,
+        [key: string]: string | undefined,
     }
 }
 
-router.get('/', (req: Request, res: Response) => {
+const checkLogin = (req: Request, res: Response, next: NextFunction) => {
     const isLogin = req.session ? req.session.login : false;
-    if(isLogin){
+    if (isLogin) {
+        next();
+    } else {
+        res.json(getResponseData(null, '请先登录'))
+    }
+};
+
+router.get('/', (req: BodyRequest, res: Response) => {
+    const isLogin = req.session ? req.session.login : false;
+    if (isLogin) {
         res.send(
             `<div>
                         <a href="/loginOut">登出</a>
@@ -24,7 +34,7 @@ router.get('/', (req: Request, res: Response) => {
                         <a href="/showData">展示数据</a>
                     </div>`
         )
-    }else{
+    } else {
         res.send(
             `<html>
     <form method="post" action="/login">
@@ -35,57 +45,48 @@ router.get('/', (req: Request, res: Response) => {
     }
 });
 
-router.post('/login', (req: Request, res: Response) => {
+router.post('/login', (req: BodyRequest, res: Response) => {
     const {password} = req.body;
     const isLogin = req.session ? req.session.login : false;
     if (isLogin) {
         res.redirect('/')
-        res.send('已经登录')
-
+        res.json(getResponseData(false, '已经登录过了'))
     } else {
         if (password === '123' && req.session) {
             req.session.login = true;
-            res.redirect('/')
-            res.send('登录成功')
+            res.json(getResponseData(true))
 
         } else {
-            res.send('密码错误')
+            res.json(getResponseData(false, '密码错误啦'))
         }
     }
 });
 
-router.get('/loginOut',(req:Request,res:Response)=>{
+router.get('/loginOut', checkLogin, (req: BodyRequest, res: Response) => {
     const isLogin = req.session ? req.session.login : false;
-    if(isLogin && req.session){
+    if (isLogin && req.session) {
         req.session.login = false;
-        res.send('登出成功')
     }
-    res.redirect('/')
+    res.json(getResponseData(false, '登出成功'));
 });
 
-router.get('/getData', (req: RequestWithBody, res: Response) => {
-    console.log(req, res, '参数', req.body)
-    const isLogin = req.session ? req.session.login : false;
-    if (isLogin) {
-        const url = 'http://192.168.4.199:8080';
-        const filePath = path.resolve(__dirname, '../data/course.json');
-        const analyzer = DealAnalyzer.getInstance();
-        new Crowller(url, filePath, analyzer);
-        res.send('getData router success');
-    } else {
-        res.send('请登录后获取数据')
-    }
+router.get('/getData', checkLogin, (req: BodyRequest, res: Response) => {
+    const url = 'http://192.168.4.199:8080';
+    const filePath = path.resolve(__dirname, '../data/course.json');
+    const analyzer = DealAnalyzer.getInstance();
+    new Crowller(url, filePath, analyzer);
+    res.json(getResponseData(true))
 });
 
-router.get('/showData',(req:Request,res:Response)=>{
-    const isLogin = req.session ? req.session.login : false;
-    if(isLogin){
-        const position = path.resolve(__dirname,'../data/course.json');
-        const result = fs.readFileSync(position,'utf-8');
-        res.json(JSON.parse(result))
-    }else{
-        res.send('请登录后查看')
+router.get('/showData', checkLogin, (req: BodyRequest, res: Response) => {
+    try {
+        const position = path.resolve(__dirname, '../data/course.json');
+        const result = fs.readFileSync(position, 'utf-8');
+        res.json(getResponseData(JSON.parse(result)))
+    } catch (e) {
+        res.json(getResponseData(false, '数据不存在'))
     }
+
 });
 
 export default router;
