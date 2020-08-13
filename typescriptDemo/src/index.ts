@@ -1,7 +1,11 @@
 import express, {NextFunction, Request, Response} from 'express';
-import router from "./router";
+// import router from "./router";
+
 import bodyParser from 'body-parser';
 import cookieSession from "cookie-session";
+import './controller/LoginController';
+import './controller/CrowllerController'
+import {router} from './controller/decorator'
 
 // 问题1. express 库的类型定义文件， .d.ts文件类型描述不准确
 // 问题2. 当我使用中间件的时候，对req 或者res 做了修改之后，实际上类型并不能改变

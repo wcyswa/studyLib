@@ -1,3 +1,4 @@
+/*
 import {Router, Request, Response, NextFunction} from 'express';
 import path from "path";
 import DealAnalyzer from "./utils/dealAnalyzer";
@@ -89,4 +90,4 @@ router.get('/showData', checkLogin, (req: BodyRequest, res: Response) => {
 
 });
 
-export default router;
+export default router;*/
