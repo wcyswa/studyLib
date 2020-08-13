@@ -17,10 +17,19 @@ interface BodyRequest extends Request {
 const checkLogin = (req: Request, res: Response, next: NextFunction) => {
     const isLogin = req.session ? req.session.login : false;
     if (isLogin) {
+        console.log('checkLogin 中间件')
         next();
     } else {
         res.json(getResponseData(null, '请先登录'))
     }
+};
+
+/*
+* 多个中间件如何实现
+* */
+const consoleMid = (req:Request,res:Response,next:NextFunction)=>{
+    console.log('consoleMid 中间件')
+    next();
 };
 
 @controller
@@ -28,6 +37,7 @@ class CrowllerController {
 
     @get('/getData')
     @use(checkLogin)
+    @use(consoleMid)
     getData(req: BodyRequest, res: Response) {
         const url = 'http://192.168.4.199:8080';
         const filePath = path.resolve(__dirname, '../../data/course.json');

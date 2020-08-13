@@ -15,11 +15,11 @@ export function controller(target: any) {
         const path = Reflect.getMetadata('path', target.prototype, key);
         const method: Method = Reflect.getMetadata('method', target.prototype, key);
         const handler = target.prototype[key];
-        const middleware = Reflect.getMetadata('middleware',target.prototype,key);
+        const middlewares = Reflect.getMetadata('middlewares', target.prototype, key);
         if (path && method && handler) {
-            if(middleware){
-                router[method](path,middleware,handler)
-            }else{
+            if (middlewares && middlewares.length) {
+                router[method](path, ...middlewares, handler)
+            } else {
                 router[method](path, handler);
             }
         }
@@ -29,9 +29,11 @@ export function controller(target: any) {
 /*
 * 中间件
 * */
-export function use(middleware:RequestHandler) {
-    return function (target:any,key:string) {
-        Reflect.defineMetadata('middleware',middleware,target,key)
+export function use(middleware: RequestHandler) {
+    return function (target: any, key: string) {
+        const originMiddlewares = Reflect.getMetadata('middlewares', target, key) || [];
+        originMiddlewares.push(middleware);
+        Reflect.defineMetadata('middlewares', originMiddlewares, target, key)
     }
 }
 
