@@ -13,7 +13,14 @@ interface BodyRequest extends Request {
 
 @controller
 class LoginController {
-    @get('/loginOut')
+    @get('/api/isLogin')
+    isLogin(req: BodyRequest, res: Response) {
+        console.log('页面访问到了吗')
+        const isLogin = !!(req.session ? req.session.login : false);
+        return res.json(getResponseData(isLogin));
+    }
+
+    @get('/api/loginOut')
     loginOut(req: BodyRequest, res: Response) {
         const isLogin = req.session ? req.session.login : false;
         if (isLogin && req.session) {

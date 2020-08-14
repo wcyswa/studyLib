@@ -1,0 +1,10 @@
+.box{
+    margin: 0 auto;
+    width: 300px;
+}
+
+.handleBox{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
