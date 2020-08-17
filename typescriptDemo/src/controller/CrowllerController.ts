@@ -27,7 +27,7 @@ const checkLogin = (req: Request, res: Response, next: NextFunction) => {
 /*
 * 多个中间件如何实现
 * */
-const consoleMid = (req:Request,res:Response,next:NextFunction)=>{
+const consoleMid = (req: Request, res: Response, next: NextFunction) => {
     console.log('consoleMid 中间件')
     next();
 };
@@ -35,7 +35,7 @@ const consoleMid = (req:Request,res:Response,next:NextFunction)=>{
 @controller
 class CrowllerController {
 
-    @get('/getData')
+    @get('/api/getData')
     @use(checkLogin)
     @use(consoleMid)
     getData(req: BodyRequest, res: Response) {
@@ -43,12 +43,12 @@ class CrowllerController {
         const filePath = path.resolve(__dirname, '../../data/course.json');
         const analyzer = DealAnalyzer.getInstance();
         new Crowller(url, filePath, analyzer);
-        res.json(getResponseData(false, ''))
+        res.json(getResponseData(true, ''))
     }
 
-    @get('/showData')
+    @get('/api/showData')
     @use(checkLogin)
-    showData(req:BodyRequest,res:Response){
+    showData(req: BodyRequest, res: Response) {
         try {
             const position = path.resolve(__dirname, '../../data/course.json');
             const result = fs.readFileSync(position, 'utf-8');

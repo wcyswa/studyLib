@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import {Button,message} from 'antd';
-import axios from 'axios';
+import {Button, message} from 'antd';
+import request from '../../request';
 import {Redirect} from 'react-router'
 import './styles.css'
 
@@ -12,22 +12,43 @@ export default class Home extends Component {
     };
 
     componentDidMount(): void {
-        axios.get('/api/isLogin').then((res) => {
-            console.log(res)
-            let state = res.data?.data;
-            console.log(state, '状态')
+        request.get('/api/isLogin').then((res) => {
+            let state = res.data;
             this.setState({
                 isLogin: state,
                 isLoaded: true
-            })
-            console.log(res, '接口返回')
+            });
         })
     }
 
-    loginOut(){
-        axios.get('/api/logOut').then((res)=>{
-            if(res.data?.data){
+    loginOut() {
+        request.get('/api/loginOut').then((res) => {
+            if (res.data) {
                 message.success('登出成功')
+                this.setState({
+                    isLogin: false
+                })
+            }
+        })
+    }
+
+    getData() {
+        request.get('/api/getData').then(res => {
+            if (res.data) {
+                this.showData();
+                message.success('获取成功');
+            }
+        })
+    }
+
+    showData() {
+        request.get('/api/showData').then(res => {
+            console.log(res, '范德萨')
+            if (res.data) {
+                let r: any[] = [];
+                console.log(...Object.values(res.data), '数组展开')
+                r.push(...Object.values(res.data));
+                console.log(r, 'value值', r.values())
             }
         })
     }
@@ -43,7 +64,7 @@ export default class Home extends Component {
                                 <h3>welcome</h3>
                                 <div className={'handleBox'}>
                                     <Button type={"primary"} onClick={this.loginOut.bind(this)}>登出</Button>
-                                    <Button type={"primary"}>爬取</Button>
+                                    <Button type={"primary"} onClick={this.getData.bind(this)}>爬取</Button>
                                     <Button type={"primary"}>展示</Button>
                                 </div>
 

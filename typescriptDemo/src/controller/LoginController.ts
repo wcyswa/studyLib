@@ -26,7 +26,7 @@ class LoginController {
         if (isLogin && req.session) {
             req.session.login = false;
         }
-        res.json(getResponseData(false, '登出成功'));
+        res.json(getResponseData(true, '登出成功'));
     }
 
     @get('/')
@@ -35,15 +35,15 @@ class LoginController {
         if (isLogin) {
             res.send(
                 `<div>
-                        <a href="/loginOut">登出</a>
-                        <a href="/getData">获取数据</a>
-                        <a href="/showData">展示数据</a>
+                        <a href="/api/loginOut">登出</a>
+                        <a href="/api/getData">获取数据</a>
+                        <a href="/api/showData">展示数据</a>
                     </div>`
             )
         } else {
             res.send(
                 `<html>
-    <form method="post" action="/login">
+    <form method="post" action="/api/login">
     <input type="password" name="password"><button>登录1</button>
 </form>
 </body>
@@ -51,9 +51,10 @@ class LoginController {
         }
     }
 
-    @post('/login')
+    @post('/api/login')
     login(req: BodyRequest, res: Response) {
         const {password} = req.body;
+        console.log(password, '传递的密码')
         const isLogin = req.session ? req.session.login : false;
         if (isLogin) {
             res.redirect('/')
