@@ -2,11 +2,11 @@
  * create by wangchunyan1 on 2021/6/8
  */
 import {Component} from 'react';
-import { Route } from 'react-router'
+import { Router, Route, Switch } from 'react-router'
 import routes from './routes-config'
-function App(){
+function App3(){
     return (
-        <Layout>
+        <Router history={}>
             <Switch>
 
                 {
@@ -15,8 +15,8 @@ function App(){
                     })
                 }
             </Switch>
-        </Layout>
+        </Router>
     );
 }
 
-export default App;
+export default App3;

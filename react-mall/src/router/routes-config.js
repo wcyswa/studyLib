@@ -1,3 +1,4 @@
+import React from 'react';
 class Home extends React.Component {
 
     render() {
@@ -10,6 +11,7 @@ class Detail extends React.Component{
         return <div>detail</div>
     }
 }
+
 
 class Index extends React.Component {
 
