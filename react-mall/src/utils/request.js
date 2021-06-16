@@ -40,7 +40,7 @@ const fetchAsync = async function(url, method, data, contentType = 'application/
 
     return fetch(apiHostPath + url, req).then(function(response) {
         if (!response.ok) {
-            message.error('服务器开小差了，请稍后再试！');
+            console.log('服务器开小差了，请稍后再试！');
             return response.json().then(function(errorInfo) {
                 const error = new Error('serverError');
                 error.source = 'server';
@@ -51,7 +51,7 @@ const fetchAsync = async function(url, method, data, contentType = 'application/
         return response.json();
     }).catch(function(err) {
         if (!err.source) {
-            message.error('网络已断开，请检查网络状态！');
+            console.log('网络已断开，请检查网络状态！');
             err.source = 'network';
         }
         throw err;
