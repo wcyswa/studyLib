@@ -1,0 +1,20 @@
+.main .p{
+    color: green;
+}
+body:is(.header, .main) .p{
+    color: purple;
+}
+body:where(.header, .main) .p{
+    color: aqua;
+}
+.p{
+    color: red;
+}
+
+.colorA{
+    color: red;
+}
+.colorB{
+    color: green;
+}
+

@@ -7,7 +7,7 @@
 3.接收 
     3.1 Consumer组件包裹要获取父组件值的组件，方式为Consumer接收一个差值表达式，内部调用方法，接收Provider 传递的value值，再return 要渲染的子组件。
     3.2 子组件调用静态属性static contextType = myContext; ,然后在组件内部就可以使用this.myContext变量，里面就包含了Provider传递的value值
-
+    3.3 hook 中可以使用useContext(context) 去接收传递的值 // 只是让你能够读取context的值，以及订阅context的变化
 ## 多个context
 创建多个context使用
 
@@ -17,6 +17,22 @@
 # redux
 所有state都以一个对象树的形式存储在一个单一的store中，唯一改变state的办法是触发action,一个描述发生什么的对象。描述action如何改变state树就需要编写reducers.
 
+
+# hooks
+useCallback(fn, deps) 相当于 useMemo(() => fn, deps)
+
+## useMemo
+1.返回属性值，类似于mobx 的@computed,会生成一个新的值，父组件更新，值没有变化，则不会触发子组件更新
+2.子组件需要被memo函数调用，才可以完成这项优化。
+
+useMemo的函数会在渲染期间执行，不要在这个函数内部执行与渲染无关的操作，比如副作用这类的操作属于useEffect的适用范畴，而不是useMemo.
+你可以把 useMemo 作为性能优化的手段，但不要把它当成语义上的保证
+正确使用方式：
+先编写在没有 useMemo 的情况下也可以执行的代码 —— 之后再在你的代码中添加 useMemo，以达到优化性能的目的。
+
+## useCallback
+1.接收函数、依赖项，返回一个新函数，新函数可以作为子组件的回调函数往下传递，只有依赖项发生变化，且返回的函数有变化时，才触发子组件更新
+2.同样也需要子组件被memo调用才可以。
 
 js引擎是单线程的
 
