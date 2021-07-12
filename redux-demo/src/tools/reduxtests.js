@@ -1,5 +1,6 @@
 /**
  * create by wangchunyan1 on 2021/7/8
+ * 调用多个reducer
  */
 import { createStore } from 'redux'
 
@@ -14,28 +15,41 @@ import { createStore } from 'redux'
  * 下面例子使用 `switch` 语句和字符串来做判断，但你可以写帮助类(helper)
  * 根据不同的约定（如方法映射）来判断，只要适用你的项目即可。
  */
-function counter(state = {name:'wcy',age:12} , action) {
+function visibilityFilter(state = 'SHOW_ALL', action) {
+    console.log(state, '测试')
+    if (action.type === 'SET_VISIBILITY_FILTER') {
+        return action.filter
+    } else {
+        return state
+    }
+}
+
+function todos(state = [], action) {
     switch (action.type) {
-        case 'INCREMENT':
-            return {
-                ...state,
-                age:state.age+11
-            }
-        case 'DECREMENT':
-            return {
-                ...state,
-                age:state.age-14
-            }
+        case 'ADD_TODO':
+            return state.concat([{ text: action.text, completed: false }])
+        case 'TOGGLE_TODO':
+            return state.map((todo, index) =>
+                action.index === index
+                    ? { text: todo.text, completed: !todo.completed }
+                    : todo
+            )
         default:
-            return {
-                ...state,
-            }
+            return state
+    }
+}
+
+function toDoApp(state={},action){
+    console.log(state, action, '总store')
+    return {
+        todos: todos(state.todos, action),
+        visibilityFilter: visibilityFilter(state.visibilityFilter,action)
     }
 }
 
 // 创建 Redux store 来存放应用的状态。
 // API 是 { subscribe, dispatch, getState, replaceReducer }。
-let store = createStore(counter)
+let store = createStore(toDoApp)
 console.log(store)
 
 // 可以手动订阅更新，也可以事件绑定到视图层。
@@ -43,9 +57,9 @@ store.subscribe(() => console.log(store.getState(),'订阅变化'))
 
 // 改变内部 state 惟一方法是 dispatch 一个 action。
 // action 可以被序列化，用日记记录和储存下来，后期还可以以回放的方式执行
-store.dispatch({ type: 'INCREMENT' })
+store.dispatch({ type: 'SET_VISIBILITY_FILTER' })
 // 1
-store.dispatch({ type: 'INCREMENT' })
-// 2
-store.dispatch({ type: 'DECREMENT' })
+// store.dispatch({ type: 'INCREMENT' })
+// // 2
+// store.dispatch({ type: 'DECREMENT' })
 // 1
