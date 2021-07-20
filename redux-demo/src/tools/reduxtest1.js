@@ -44,7 +44,7 @@ const store = createStore(counter1);
 console.log(store.getState(), '是拿不到state初始化值吗？')
 
 const unsubscribe = store.subscribe(()=>{
-    // console.log(store.getState(), '监听state变化')
+    console.log(store.getState(), '监听state变化')
 })
 store.dispatch({type:'add',student:{name:'labuladong',subjects:['英语','政治']}})
 console.log(store.getState(),'store state内容');

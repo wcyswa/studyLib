@@ -18,6 +18,7 @@
 组件通过自上而下的数据源进行更新，由setState触发组件的更新机制
 
 # redux
+
 所有state都以一个对象树的形式存储在一个单一的store中，唯一改变state的办法是触发action,一个描述发生什么的对象。描述action如何改变state树就需要编写reducers.
 
 ## redux 运行过程
