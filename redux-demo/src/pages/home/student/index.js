@@ -35,7 +35,7 @@ export default class Student extends Component{
                         }
                     }
                 </MyContext.Consumer>
-                <CounterAgeContext>
+                <CounterAgeContext.Consumer>
                     {
                         value=>{
                             const {ageCounter, updateAgeCounter} = value;
@@ -45,7 +45,7 @@ export default class Student extends Component{
                             </>
                         }
                     }
-                </CounterAgeContext>
+                </CounterAgeContext.Consumer>
             </>
 
         )
