@@ -8,6 +8,8 @@
     3.1 Consumer组件包裹要获取父组件值的组件，方式为Consumer接收一个差值表达式，内部调用方法，接收Provider 传递的value值，再return 要渲染的子组件。
     3.2 子组件调用静态属性static contextType = myContext; ,然后在组件内部就可以使用this.myContext变量，里面就包含了Provider传递的value值
     3.3 hook 中可以使用useContext(context) 去接收传递的值 // 只是让你能够读取context的值，以及订阅context的变化
+
+所以context的使用是基于生产者消费者模式
 ## 多个context
 创建多个context使用
 
