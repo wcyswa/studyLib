@@ -7,6 +7,7 @@ import ThunkInfoList from "../thunkInfoList";
  *  state多了以后，使用combineReducer进行拆分,且有异步请求,通过thunk优化代码内容
  */
 function Index(){
+    console.log('父组件')
     return <Provider store={store}>
         <h3>state多了以后，使用combineReducer进行拆分,且有异步请求,通过thunk优化代码内容</h3>
         <ThunkInfoList/>

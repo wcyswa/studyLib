@@ -3,7 +3,7 @@
  */
 import {Component} from "react";
 import styles from './index.modules.css';
-import {Consumer} from "../../../context/myContext";
+import MyContext from "../../../context/myContext";
 import CounterAgeContext from "../../../context/counterAgeContext";
 
 /*
@@ -19,7 +19,7 @@ export default class Student extends Component{
         const {id, name, age, hobbies} = this.props.student;
         return(
             <>
-                <Consumer>
+                <MyContext.Consumer>
                     {
                         value=>{
                             const {updateHobbies} = value;
@@ -34,7 +34,7 @@ export default class Student extends Component{
                             )
                         }
                     }
-                </Consumer>
+                </MyContext.Consumer>
                 <CounterAgeContext>
                     {
                         value=>{

@@ -2,7 +2,7 @@
  * create by wangchunyan1 on 2021/7/7
  */
 import React,{Component} from "react";
-import {Provider} from "../../context/myContext";
+import MyContext from "../../context/myContext";
 import CounterAgeContext from "../../context/counterAgeContext";
 import List from './list/index';
 export default class Home extends Component{
@@ -49,16 +49,17 @@ export default class Home extends Component{
     }
 
     render() {
+        console.log('context provider 父组件')
         return(
             <CounterAgeContext.Provider value={{
                 ageCounter:this.state.ageCounter,
                 updateAgeCounter:this.updateAgeCounter
             }}>
-                <Provider value={{
+                <MyContext.Provider value={{
                     updateHobbies:this.updateHobbies
                 }}>
                     <List list={this.state.list}/>
-                </Provider>
+                </MyContext.Provider>
             </CounterAgeContext.Provider>
         )
     }

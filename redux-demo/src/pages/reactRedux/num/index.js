@@ -10,7 +10,7 @@ import {connect} from "react-redux";
 class Num extends React.Component{
     render() {
         const {num, dispatch} = this.props;
-        console.log(this.props, '传参变化')
+        console.log(this.props, '传参变化 num')
         return <div>
             <button onClick={()=>{dispatch({type:'num/add'})}}>num 增加</button>
                 <span>

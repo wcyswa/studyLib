@@ -3,14 +3,14 @@
  */
 import {Component} from "react";
 import styles from './index.modules.css';
-import context from "../../../context/myContext";
+import MyContext from "../../../context/myContext";
 
 /*
 * Provider Consumer 实现
 * */
 export default class Student1 extends Component{
 
-    static contextType = context;
+    static contextType = MyContext;
 
     componentDidMount() {
 
